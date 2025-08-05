@@ -1,11 +1,16 @@
 trigger:
 - none
 
+pool:
+  terta-pool
+
 variables:
   bhavyapath: 'Enviroment\Pre-prod'
 
-pool:
-  terta-pool
+parameters:
+- name: run init
+  type: boolean
+  default: True
 
 steps:
 - task: TerraformInstaller@1
@@ -15,6 +20,7 @@ steps:
     
 - task: TerraformTask@5
   displayName: Terraform Init
+  condition: eq('${{ parameters.run init }}', true)
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -58,3 +64,5 @@ steps:
     command: 'apply'
     workingDirectory: '$(bhavyapath)'
     environmentServiceNameAzureRM: 'boom-sc'
+
+
