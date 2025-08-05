@@ -8,7 +8,7 @@ variables:
   bhavyapath: 'Enviroment\Pre-prod'
 
 parameters:
-- name: run init
+- name: runInit
   type: boolean
   default: True
 
@@ -20,7 +20,7 @@ steps:
     
 - task: TerraformTask@5
   displayName: Terraform Init
-  condition: eq('${{ parameters.run init }}', true)
+  condition: eq('${{ parameters.runInit }}', true)
   inputs:
     provider: 'azurerm'
     command: 'init'
