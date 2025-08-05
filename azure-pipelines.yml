@@ -6,10 +6,12 @@ pool:
 
 steps:
 - task: TerraformInstaller@1
+  displayName: Terraform Install
   inputs:
-   terraformVersion: latest
+   terraformVersion: 'latest'
     
 - task: TerraformTask@5
+  displayName: Terraform Init
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -20,3 +22,36 @@ steps:
     backendAzureRmStorageAccountName: 'boomstorage4'
     backendAzureRmContainerName: 'viruscontainer'
     backendAzureRmKey: 'virus.tfstate'
+
+- task: TerraformTask@5
+  displayName: Terraform fmt
+  inputs:
+    provider: 'azurerm'
+    command: 'custom'
+    workingDirectory: 'Enviroment\Pre-prod'
+    outputTo: 'console'
+    customCommand: 'fmt'
+    environmentServiceNameAzureRM: 'boom-sc'
+
+- task: TerraformTask@5
+  displayName: Terraform Validate
+  inputs:
+    provider: 'azurerm'
+    command: 'validate'
+    workingDirectory: 'Enviroment\Pre-prod'
+
+- task: TerraformTask@5
+  displayName: Terraform Plan
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: 'Enviroment\Pre-prod'
+    environmentServiceNameAzureRM: 'boom-sc'
+
+- task: TerraformTask@5
+  displayName: Terraform Apply
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: 'Enviroment\Pre-prod'
+    environmentServiceNameAzureRM: 'boom-sc'
