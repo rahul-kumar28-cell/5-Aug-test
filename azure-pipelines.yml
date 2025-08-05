@@ -1,0 +1,22 @@
+trigger:
+- none
+
+pool:
+  terta-pool
+
+steps:
+- task: TerraformInstaller@1
+  inputs:
+   terraformVersion: latest
+    
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: 'Enviroment\Pre-prod'
+    backendServiceArm: 'boom-sc'
+    backendAzureRmOverrideSubscriptionID: 'fadfa500-48fa-4d7d-ae72-215103d56b2f'
+    backendAzureRmResourceGroupName: 'rg-virus'
+    backendAzureRmStorageAccountName: 'boomstorage4'
+    backendAzureRmContainerName: 'viruscontainer'
+    backendAzureRmKey: 'virus.tfstate'
